@@ -5,6 +5,7 @@
 #include <SDL.h>
 #include <SDL_ttf.h>
 
+
 int main(int argc, char* argv[]) {
   bool inited = true;
   if(SDL_Init(SDL_INIT_VIDEO) != 0) { printf("%s %s\n", "SDL INIT ERROR!", SDL_GetError()); inited = false; }
@@ -39,8 +40,16 @@ int main(int argc, char* argv[]) {
   Message_rect.w = surfaceMessage->w; // controls the width of the rect
   Message_rect.h = surfaceMessage->h; // controls the height of the rect
 
+  double lastTime = 0;
+  double deltaTime = 0;
+  int TARGET_FPS = 60;
 
   while(running) {
+    deltaTime = (SDL_GetTicks() - lastTime) * ((double) TARGET_FPS / 1000.0);
+    lastTime = SDL_GetTicks();
+    fflush(stdout);
+    printf("\rDeltaTime: %f", deltaTime);
+
     SDL_Event event;
     while(SDL_PollEvent(&event)) {
       if(event.type == SDL_QUIT) running = false;

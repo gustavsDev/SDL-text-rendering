@@ -1,5 +1,5 @@
 SRC=main.c
-LIBS=-lSDL2 -lSDL2_ttf
+LIBS= -lSDL2 -lSDL2_ttf
 INC=-I/usr/include/SDL2
 CC=gcc
 OUTPUT=HelloWorld
