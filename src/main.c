@@ -5,6 +5,8 @@
 #include <SDL.h>
 #include <SDL_ttf.h>
 
+#define WIDTH 640
+#define HEIGHT 360
 
 int main(int argc, char* argv[]) {
   bool inited = true;
@@ -20,7 +22,7 @@ int main(int argc, char* argv[]) {
   SDL_Window* window;
   SDL_Renderer* render;
 
-  SDL_CreateWindowAndRenderer(640, 360, SDL_WINDOW_SHOWN, &window, &render);
+  SDL_CreateWindowAndRenderer(WIDTH, HEIGHT, SDL_WINDOW_SHOWN, &window, &render);
 
   // Game loop
   bool running = true;
@@ -40,15 +42,16 @@ int main(int argc, char* argv[]) {
   Message_rect.w = surfaceMessage->w; // controls the width of the rect
   Message_rect.h = surfaceMessage->h; // controls the height of the rect
 
-  double lastTime = 0;
+  Uint64 NOW = SDL_GetPerformanceCounter();
+  Uint64 LAST = 0;
   double deltaTime = 0;
-  int TARGET_FPS = 60;
 
   while(running) {
-    deltaTime = (SDL_GetTicks() - lastTime) * ((double) TARGET_FPS / 1000.0);
-    lastTime = SDL_GetTicks();
-    fflush(stdout);
-    printf("\rDeltaTime: %f", deltaTime);
+    LAST = NOW;
+    NOW = SDL_GetPerformanceCounter();
+    deltaTime = (double)((NOW - LAST)*1000 / (double)SDL_GetPerformanceFrequency() );
+
+    
 
     SDL_Event event;
     while(SDL_PollEvent(&event)) {
